@@ -15,8 +15,7 @@ namespace Volo.Abp.RavenDB.Volo.Abp.Domain.Repositories.RavenDB
     public class RavenDbRepository<TRavenDbContext, TEntity> : RepositoryBase<TEntity>
         where TRavenDbContext : IAbpRavenDbContext
         where TEntity : class, IEntity
-    {        
-
+    {
         private IAsyncDocumentSession Session => DbContext.AsyncSession;
 
         public virtual TRavenDbContext DbContext => DbContextProvider.GetDbContext();        

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents.Session;
 using Volo.Abp.Data;
 using Volo.Abp.RavenDB.Volo.Abp.RavenDB;
@@ -22,7 +23,19 @@ namespace Volo.Abp.RavenDB.Volo.Abp.Uow
 
         public TRavenDbContext GetDbContext()
         {
-            var unitOfWork = _unitOfWorkManager.Current;
+            IUnitOfWork unitOfWork;
+            try
+            {
+                unitOfWork = _unitOfWorkManager.Current;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+
+            
             if (unitOfWork == null)
             {
                 throw new AbpException($"A {nameof(IAsyncDocumentSession)} instance can only be created inside a unit of work!");
