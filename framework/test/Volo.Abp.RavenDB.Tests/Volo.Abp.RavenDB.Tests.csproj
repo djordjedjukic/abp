@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>		
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Volo.Abp.RavenDB\Volo.Abp.RavenDB.csproj" />
+		<ProjectReference Include="..\AbpTestBase\AbpTestBase.csproj" />
+		<ProjectReference Include="..\Volo.Abp.TestApp\Volo.Abp.TestApp.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+	</ItemGroup>
+
+</Project>
