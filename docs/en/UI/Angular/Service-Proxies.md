@@ -137,7 +137,3 @@ export class BookComponent implements OnInit {
 ```
 
 > Please [see this article](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-09-07%20Angular-Service-Proxies/POST.md) to learn more about service proxies.
-
-## What's Next?
-
-- [Config State](./Config-State.md)
