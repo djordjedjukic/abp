@@ -16,7 +16,7 @@ namespace Volo.Abp.RavenDB.Volo.Abp.Domain.Repositories.RavenDB
         where TRavenDbContext : IAbpRavenDbContext
         where TEntity : class, IEntity
     {
-        private IAsyncDocumentSession Session => DbContext.AsyncSession;
+        public virtual IAsyncDocumentSession Session => DbContext.AsyncSession;
 
         public virtual TRavenDbContext DbContext => DbContextProvider.GetDbContext();        
 
@@ -104,5 +104,55 @@ namespace Volo.Abp.RavenDB.Volo.Abp.Domain.Repositories.RavenDB
         {
             return Session.Query<TEntity>();
         }
+    }
+
+    public class RavenDbRepository<TRavenDbContext, TEntity, TKey>
+        : RavenDbRepository<TRavenDbContext, TEntity>,
+        IRavenDbRepository<TEntity, TKey>
+        where TRavenDbContext : IAbpRavenDbContext
+        where TEntity : class, IEntity<TKey>
+    {
+        public RavenDbRepository(IRavenDbContextProvider<TRavenDbContext> dbContextProvider)
+            : base(dbContextProvider)
+        {
+
+        }
+
+        public virtual async Task<TEntity> GetAsync(
+            TKey id,
+            bool includeDetails = true,
+            CancellationToken cancellationToken = default)
+        {
+            var entity = await FindAsync(id, includeDetails, cancellationToken);
+
+            if (entity == null)
+            {
+                throw new EntityNotFoundException(typeof(TEntity), id);
+            }
+
+            return entity;
+        }
+
+        public virtual async Task<TEntity> FindAsync(
+            TKey id,
+            bool includeDetails = true,
+            CancellationToken cancellationToken = default)
+        {
+            //return await Session.Query<TEntity>().SingleOrDefault(x => x.Id == id, GetCancellationToken(cancellationToken));
+            return null;
+        }
+
+        public virtual Task DeleteAsync(
+            TKey id,
+            bool autoSave = false,
+            CancellationToken cancellationToken = default)
+        {
+            return DeleteAsync(x => x.Id.Equals(id), autoSave, cancellationToken);
+        }
+
+        /*protected override FilterDefinition<TEntity> CreateEntityFilter(TEntity entity, bool withConcurrencyStamp = false, string concurrencyStamp = null)
+        {
+            return RepositoryFilterer.CreateEntityFilter(entity, withConcurrencyStamp, concurrencyStamp);
+        }*/
     }
 }

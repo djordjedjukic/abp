@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
@@ -8,7 +9,7 @@ using Volo.Abp.TestApp.Domain;
 
 namespace Volo.Abp.RavenDB.Tests.Volo.Abp.TestApp.RavenDb
 {
-    public class CityRepository : RavenDbRepository<ITestAppRavenDbContext, City>
+    public class CityRepository : RavenDbRepository<ITestAppRavenDbContext, City, Guid>, ICityRepository
     {
         public CityRepository(IRavenDbContextProvider<ITestAppRavenDbContext> dbContextProvider)
             : base(dbContextProvider)
